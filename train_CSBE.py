@@ -7,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.base import clone
 from scipy.stats import mode
 
-# Define the CSBE class without inheritance
+# Define the CSBE class
 class CSBE:
     def __init__(self, base_estimator=None, n_estimators=10, sampling_mode=1):
         self.base_estimator = base_estimator if base_estimator else DecisionTreeClassifier(max_depth=5, max_features=1)
