@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import math
 import numpy as np
-from pathlib import Path
 
 from load_and_predict_SMOTED_RF import predict_a_sample_RF
 from load_and_predict_CSBE import predict_a_sample_CSBE

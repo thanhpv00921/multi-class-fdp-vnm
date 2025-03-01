@@ -1,2 +1,8 @@
 streamlit
 pandas
+math
+numpy
+pickle
+scipy
+random
+sklearn
