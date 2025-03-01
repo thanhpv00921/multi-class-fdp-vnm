@@ -1,4 +1,4 @@
-# :earth_americas: Financial distress prediction for Vietnam-listed firms
+# :earth_americas: FDP application for Vietnam-listed firms
 
 This application predicts if a listed firm in Vietnam stock exchanges will fall into financial distress
 in the next 2 years. Financial indicators and the current interest rate of the State Bank of Vietnam are input for prediction.
