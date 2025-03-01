@@ -5,4 +5,4 @@ numpy
 pickle
 scipy
 random
-sklearn
+scikit-learn
