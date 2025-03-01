@@ -1,7 +1,1 @@
 streamlit
-math
-numpy
-pickle
-scipy
-random
-scikit-learn
