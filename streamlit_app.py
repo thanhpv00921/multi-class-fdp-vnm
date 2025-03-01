@@ -1,151 +1,113 @@
 import streamlit as st
 import pandas as pd
 import math
+import numpy as np
 from pathlib import Path
+
+from load_and_predict_SMOTED_RF import predict_a_sample_RF
+from load_and_predict_CSBE import predict_a_sample_CSBE
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='GDP dashboard',
+    page_title='FDP Prediction for Vietnam-listed firms',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
-
-# -----------------------------------------------------------------------------
-# Declare some useful functions.
-
-@st.cache_data
-def get_gdp_data():
-    """Grab GDP data from a CSV file.
-
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
-    """
-
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/gdp_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
-
-    MIN_YEAR = 1960
-    MAX_YEAR = 2022
-
-    # The data above has columns like:
-    # - Country Name
-    # - Country Code
-    # - [Stuff I don't care about]
-    # - GDP for 1960
-    # - GDP for 1961
-    # - GDP for 1962
-    # - ...
-    # - GDP for 2022
-    #
-    # ...but I want this instead:
-    # - Country Name
-    # - Country Code
-    # - Year
-    # - GDP
-    #
-    # So let's pivot all those year-columns into two: Year and GDP
-    gdp_df = raw_gdp_df.melt(
-        ['Country Code'],
-        [str(x) for x in range(MIN_YEAR, MAX_YEAR + 1)],
-        'Year',
-        'GDP',
-    )
-
-    # Convert years from string to integers
-    gdp_df['Year'] = pd.to_numeric(gdp_df['Year'])
-
-    return gdp_df
-
-gdp_df = get_gdp_data()
 
 # -----------------------------------------------------------------------------
 # Draw the actual page
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: GDP dashboard
+# :earth_americas: Financial distress prediction for Vietnam-listed firms
 
-Browse GDP data from the [World Bank Open Data](https://data.worldbank.org/) website. As you'll
-notice, the data only goes to 2022 right now, and datapoints for certain years are often missing.
-But it's otherwise a great (and did I mention _free_?) source of data.
+This application predicts if a listed firm in Vietnam stock exchanges will fall into financial distress
+in the next 2 years. Please input the following financial indicators and the current interest rate of the State Bank of Vietnam for prediction.
+
+The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of AAM (Mekong Seafood Joint Stock Company) in 2018.
+The default interest rate of the State Bank of Vietnam is the average rate of 2018. That company was marked as Lightly Distressed on 2020.
+
+The prediction results fall into one of the 3 following possibilities: Not Distressed (Active), Lightly Distressed and Persistently Distressed.
 '''
 
 # Add some spacing
 ''
 ''
 
-min_value = gdp_df['Year'].min()
-max_value = gdp_df['Year'].max()
-
-from_year, to_year = st.slider(
-    'Which years are you interested in?',
-    min_value=min_value,
-    max_value=max_value,
-    value=[min_value, max_value])
-
-countries = gdp_df['Country Code'].unique()
-
-if not len(countries):
-    st.warning("Select at least one country")
-
-selected_countries = st.multiselect(
-    'Which countries would you like to view?',
-    countries,
-    ['DEU', 'FRA', 'GBR', 'BRA', 'MEX', 'JPN'])
-
-''
-''
-''
-
-# Filter the data
-filtered_gdp_df = gdp_df[
-    (gdp_df['Country Code'].isin(selected_countries))
-    & (gdp_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('GDP over time', divider='gray')
-
-''
-
-st.line_chart(
-    filtered_gdp_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
+st.title('Select a prediction model')
+algorithm = st.selectbox(
+    "Which trained model would you like to adopt?",
+    ("SMOTED Random Forest (RF)", "Custom Sampling Bagging Ensemble (CSBE)"),
 )
 
-''
-''
+st.title('Then enter the financial indicators of the firm')
+A01 = st.number_input('Current assets', value=185.0)
+A05 = st.number_input('Inventories', value=65.)
+A08 = st.number_input('Fixed assets', value=33.0)
+A11 = st.number_input('Total assets', value=230.0)
+A13 = st.number_input('Current liabilities', value=15.0)
+A14 = st.number_input('Long-term liabilities', value=3.0)
+A12 = st.number_input('Total liabilities', value=18.0)
+B01 = st.number_input('Sales revenue', value=218.0)
+B03 = st.number_input('Net income', value=23.0)
+B11 = st.number_input('EBIT', value=12.0)
+A18 = st.number_input('Retained earnings', value=16.0)
+A15 = st.number_input('Equity', value=212.0)
+SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=6.25)
 
+X1 = A01 / A13
+X2 = (A01 - A13) / A11
+X3 = (A01 - A13) / B01
+X4 = B11 / A11
+X5 = B03 / A15
+X6 = B03 / A11
+X7 = B11 / B01
+X8 = A18 / A11
+X9 = B01 / A11
+X10 = A13 / A11
+X11 = A14 / A11
+X12 = A12 / A11
+X13 = A05 / (A01 - A13)
+X14 = A14 / A01
+X15 = math.log(A11)
+X16 = math.log(B01)
+X17 = A08 / A11
+X18 = A15 / A11
+X19 = A13 / A12
 
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
+sample = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16, X17, X18, X19, SBV]
+sample = np.asarray(sample, dtype=np.float32)
 
-st.header(f'GDP in {to_year}', divider='gray')
+if algorithm == 'Custom Sampling Bagging Ensemble (CSBE)':
+    pred = predict_a_sample_CSBE(sample)
+    print('CSBE selected')
+else:
+    pred = predict_a_sample_RF(sample)
+    print('RF selected')
 
-''
+st.title('Calculated financial ratios: ')
+st.text('Current ratio [current assets / current liabilities]: ' + "{:.2f}".format(X1))
+st.text('WC / TA ratio [(current assets – current liabilities) / total assets]: ' + "{:.2f}".format(X2))
+st.text('WC / S ratio [(current assets – current liabilities) / sales revenue]: ' + "{:.2f}".format(X3))
+st.text('EBIT / TA ratio [EBIT / total assets]: ' + "{:.2f}".format(X4))
+st.text('Return on equity [net income / total owner’s equity]: ' + "{:.2f}".format(X5))
+st.text('Return on assets [net income / total assets]: ' + "{:.2f}".format(X6))
+st.text('EBIT / S ratio [EBIT / sales revenue]: ' + "{:.2f}".format(X7))
+st.text('RE / TA ratio [retained earnings / total assets]: ' + "{:.2f}".format(X8))
+st.text('S / TA ratio [sales revenue / total assets]: ' + "{:.2f}".format(X9))
+st.text('CL / TA ratio [current liabilities / total assets]: ' + "{:.2f}".format(X10))
+st.text('LTL / TA ratio [long-term liabilities / total assets]: ' + "{:.2f}".format(X11))
+st.text('TL / TA ratio [total liabilities / total assets]: ' + "{:.2f}".format(X12))
+st.text('I / WC ratio [inventories / (current assets – current liabilities)]: ' + "{:.2f}".format(X13))
+st.text('LTL / CA ratio [long-term liabilities / current assets]: ' + "{:.2f}".format(X14))
+st.text('Natural logarithm of total assets: ' + "{:.2f}".format(X15))
+st.text('Natural logarithm of sales: ' + "{:.2f}".format(X16))
+st.text('FA / TA ratio [fixed assets / total assets]: ' + "{:.2f}".format(X17))
+st.text('E / TA ratio [total owner’s equity / total assets]: ' + "{:.2f}".format(X18))
+st.text('CL / TL ratio [current liabilities / total liabilities]: ' + "{:.2f}".format(X19))
 
-cols = st.columns(4)
-
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
-
-    with col:
-        first_gdp = first_year[first_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[last_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-
-        if math.isnan(first_gdp):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
-            delta_color = 'normal'
-
-        st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
-            delta=growth,
-            delta_color=delta_color
-        )
+if pred[0] == 0:
+    st.title(algorithm + ' predicts: This firm is NOT likely to fall into distressed in the next 2 years.')
+elif pred[0] == 1:
+    st.title(algorithm + ' predicts: This firm is likely to fall into LIGHTLY DISTRESSED in the next 2 years.')
+else:
+    st.title(algorithm + ' predicts: This firm is likely to fall into PERSISTANTLY DISTRESSED in the next 2 years.')
