@@ -7,7 +7,7 @@ from load_and_predict_GB import predict_a_sample_GB
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='FDP application for Vietnam-listed firms',
+    page_title='Multi-class FDP for Vietnamese-listed firms',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -16,15 +16,15 @@ st.set_page_config(
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: Financial distress prediction for Vietnam-listed firms
+# :earth_americas: Multi-class Financial distress prediction for Vietnamese-listed firms
 
-This application predicts if a listed firm in Vietnam stock exchanges will fall into financial distress
-in the next 2 years. Please input the following financial indicators and the current interest rate of the State Bank of Vietnam for prediction.
+This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
+Please input the following financial indicators and the current interest rates of the State Bank of Vietnam & U.S. FED for prediction.
 
-The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of AAM (Mekong Seafood Joint Stock Company) in 2018.
-The default interest rate of the State Bank of Vietnam is the average rate of 2018. That company was marked as Lightly Distressed on 2020.
+The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of BCG (CTCP Tập đoàn Bamboo Capital) in 2018.
+The default interest rates are the average rate of 2018 (SBV: 6.25%, FED: 1.71%). That company was marked as Severe distress on 2019.
 
-The prediction results fall into one of the 3 following possibilities: Not Distressed (Active), Lightly Distressed and Persistently Distressed.
+The prediction results fall into one of the 3 following possibilities: Soundness (Active), Mild distress and Severe distress.
 '''
 
 # Add some spacing
@@ -38,20 +38,20 @@ algorithm = st.selectbox(
 )
 
 st.title('Then enter the financial indicators of the firm')
-A01 = st.number_input('Current assets', value=185.0)
-A05 = st.number_input('Inventories', value=65.)
-A08 = st.number_input('Fixed assets', value=33.0)
-A11 = st.number_input('Total assets', value=230.0)
-A13 = st.number_input('Current liabilities', value=15.0)
-A14 = st.number_input('Long-term liabilities', value=3.0)
-A12 = st.number_input('Total liabilities', value=18.0)
-B01 = st.number_input('Sales revenue', value=218.0)
-B03 = st.number_input('Net income', value=23.0)
-B11 = st.number_input('EBIT', value=12.0)
-A18 = st.number_input('Retained earnings', value=16.0)
-A15 = st.number_input('Equity', value=212.0)
-SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=4.50)
-FED = st.number_input('Interest rate of the U.S. Federal Reserve (%)', value=4.50)
+A01 = st.number_input('Current assets', value=1956.0)
+A05 = st.number_input('Inventories', value=180.)
+A08 = st.number_input('Fixed assets', value=226.0)
+A11 = st.number_input('Total assets', value=5321.0)
+A13 = st.number_input('Current liabilities', value=2884.0)
+A14 = st.number_input('Long-term liabilities', value=1029.0)
+A12 = st.number_input('Total liabilities', value=3913.0)
+B01 = st.number_input('Sales revenue', value=1113.0)
+B03 = st.number_input('Net income', value=231.0)
+B11 = st.number_input('EBIT', value=36.0)
+A18 = st.number_input('Retained earnings', value=-11.0)
+A15 = st.number_input('Equity', value=1408.0)
+SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=6.25)
+FED = st.number_input('Interest rate of the U.S. Federal Reserve (%)', value=1.71)
 
 X1 = A01 / A13
 X2 = (A01 - A13) / A11
@@ -105,8 +105,8 @@ st.text('E / TA ratio [total owner’s equity / total assets]: ' + "{:.2f}".form
 st.text('CL / TL ratio [current liabilities / total liabilities]: ' + "{:.2f}".format(X19))
 
 if pred[0] == 0:
-    st.title(algorithm + ' predicts: SOUNDNESS in the next 1 year.')
+    st.title(algorithm + ' predicts: SOUNDNESS in the next year.')
 elif pred[0] == 1:
-    st.title(algorithm + ' predicts: MILD DISTRESS in the next 1 year.')
+    st.title(algorithm + ' predicts: MILD DISTRESS in the next year.')
 else:
-    st.title(algorithm + ' predicts: SEVERE DISTRESS in the next 1 year.')
+    st.title(algorithm + ' predicts: SEVERE DISTRESS in the next year.')
