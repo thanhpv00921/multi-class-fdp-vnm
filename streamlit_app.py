@@ -105,8 +105,8 @@ st.text('E / TA ratio [total owner’s equity / total assets]: ' + "{:.2f}".form
 st.text('CL / TL ratio [current liabilities / total liabilities]: ' + "{:.2f}".format(X19))
 
 if pred[0] == 0:
-    st.title(algorithm + ' predicts: This firm is NOT likely to fall into distress in the next 1 year.')
+    st.title(algorithm + ' predicts: SOUNDNESS in the next 1 year.')
 elif pred[0] == 1:
-    st.title(algorithm + ' predicts: This firm is likely to fall into MILD DISTRESS in the next 1 year.')
+    st.title(algorithm + ' predicts: MILD DISTRESS in the next 1 year.')
 else:
-    st.title(algorithm + ' predicts: This firm is likely to fall into SEVERE DISTRESS in the next 1 year.')
+    st.title(algorithm + ' predicts: SEVERE DISTRESS in the next 1 year.')
