@@ -7,7 +7,7 @@ from load_and_predict_GB import predict_a_sample_GB
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='Multi-class FDP for Vietnamese-listed firms',
+    page_title='Multi-class FDP for Vietnam-listed firms',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -16,7 +16,7 @@ st.set_page_config(
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: Multi-class Financial distress prediction for Vietnamese-listed firms
+# :earth_americas: Multi-class Financial distress prediction for Vietnam-listed firms
 
 This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
 Please input the following financial indicators and the current interest rates of the State Bank of Vietnam & U.S. FED for prediction.
