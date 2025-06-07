@@ -2,8 +2,8 @@ import streamlit as st
 import math
 import numpy as np
 
-from load_and_predict_SMOTED_RF import predict_a_sample_RF
-from load_and_predict_CSBE import predict_a_sample_CSBE
+from load_and_predict_RF import predict_a_sample_RF
+from load_and_predict_GB import predict_a_sample_GB
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
@@ -34,7 +34,7 @@ The prediction results fall into one of the 3 following possibilities: Not Distr
 st.title('Select a prediction model')
 algorithm = st.selectbox(
     "Which trained model would you like to adopt?",
-    ("SMOTED Random Forest (RF)", "Custom Sampling Bagging Ensemble (CSBE)"),
+    ("Random Forest (RF)", "Gradient Boosting (GB)"),
 )
 
 st.title('Then enter the financial indicators of the firm')
@@ -50,7 +50,8 @@ B03 = st.number_input('Net income', value=23.0)
 B11 = st.number_input('EBIT', value=12.0)
 A18 = st.number_input('Retained earnings', value=16.0)
 A15 = st.number_input('Equity', value=212.0)
-SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=6.25)
+SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=4.50)
+FED = st.number_input('Interest rate of the U.S. Federal Reserve (%)', value=4.50)
 
 X1 = A01 / A13
 X2 = (A01 - A13) / A11
@@ -72,12 +73,12 @@ X17 = A08 / A11
 X18 = A15 / A11
 X19 = A13 / A12
 
-sample = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16, X17, X18, X19, SBV]
+sample = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16, X17, X18, X19, SBV, FED]
 sample = np.asarray(sample, dtype=np.float32)
 
-if algorithm == 'Custom Sampling Bagging Ensemble (CSBE)':
-    pred = predict_a_sample_CSBE(sample)
-    print('CSBE selected')
+if algorithm == 'Gradient Boosting (GB)':
+    pred = predict_a_sample_GB(sample)
+    print('GB selected')
 else:
     pred = predict_a_sample_RF(sample)
     print('RF selected')
@@ -104,8 +105,8 @@ st.text('E / TA ratio [total owner’s equity / total assets]: ' + "{:.2f}".form
 st.text('CL / TL ratio [current liabilities / total liabilities]: ' + "{:.2f}".format(X19))
 
 if pred[0] == 0:
-    st.title(algorithm + ' predicts: This firm is NOT likely to fall into distressed in the next 2 years.')
+    st.title(algorithm + ' predicts: This firm is NOT likely to fall into distress in the next 1 year.')
 elif pred[0] == 1:
-    st.title(algorithm + ' predicts: This firm is likely to fall into LIGHTLY DISTRESSED in the next 2 years.')
+    st.title(algorithm + ' predicts: This firm is likely to fall into MILD DISTRESS in the next 1 year.')
 else:
-    st.title(algorithm + ' predicts: This firm is likely to fall into PERSISTANTLY DISTRESSED in the next 2 years.')
+    st.title(algorithm + ' predicts: This firm is likely to fall into SEVERE DISTRESS in the next 1 year.')
