@@ -19,9 +19,9 @@ st.set_page_config(
 # :earth_americas: Multi-class Financial distress prediction for Vietnam-listed firms
 
 This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
-Please input the following financial indicators and the current interest rates of the State Bank of Vietnam & U.S. FED for prediction.
+Please input the following financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED for prediction.
 
-The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of BCG (CTCP Tập đoàn Bamboo Capital) in 2018.
+The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of SDP (SDP Joint Stock Company) in 2018.
 The default interest rates are the average rate of 2018 (SBV: 6.25%, FED: 1.71%). That company was marked as Severe distress on 2019.
 
 The prediction results fall into one of the 3 following possibilities: Soundness (Active), Mild distress and Severe distress.
@@ -38,18 +38,18 @@ algorithm = st.selectbox(
 )
 
 st.title('Then enter the financial indicators of the firm')
-A01 = st.number_input('Current assets', value=1956.0)
-A05 = st.number_input('Inventories', value=180.)
-A08 = st.number_input('Fixed assets', value=226.0)
-A11 = st.number_input('Total assets', value=5321.0)
-A13 = st.number_input('Current liabilities', value=2884.0)
-A14 = st.number_input('Long-term liabilities', value=1029.0)
-A12 = st.number_input('Total liabilities', value=3913.0)
-B01 = st.number_input('Sales revenue', value=1113.0)
-B03 = st.number_input('Net income', value=231.0)
-B11 = st.number_input('EBIT', value=36.0)
-A18 = st.number_input('Retained earnings', value=-11.0)
-A15 = st.number_input('Equity', value=1408.0)
+A01 = st.number_input('Current assets', value=428.0)
+A05 = st.number_input('Inventories', value=109.)
+A08 = st.number_input('Fixed assets', value=27.0)
+A11 = st.number_input('Total assets', value=539.0)
+A13 = st.number_input('Current liabilities', value=459.0)
+A14 = st.number_input('Long-term liabilities', value=2.0)
+A12 = st.number_input('Total liabilities', value=461.0)
+B01 = st.number_input('Sales revenue', value=313.0)
+B03 = st.number_input('Net income', value=16.0)
+B11 = st.number_input('EBIT', value=-10.0)
+A18 = st.number_input('Retained earnings', value=-68.0)
+A15 = st.number_input('Equity', value=79.0)
 SBV = st.number_input('Interest rate of the State Bank of Vietnam (%)', value=6.25)
 FED = st.number_input('Interest rate of the U.S. Federal Reserve (%)', value=1.71)
 
