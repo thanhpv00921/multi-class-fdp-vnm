@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 from imblearn.over_sampling import SMOTE
 import pickle
 
-data = pd.read_csv("dataset/vnm_enterprises-1year-multiclass-fdp.csv")
+data = pd.read_csv("H:/My Drive/02-DPROGRAM/05-my-papers/01-paper1/00-datasets/azm2bin3738/FDP_VN_1year_multi_FIN_MAC_2010_2023.csv")
 arr = data.to_numpy()
 
 # Split predictors and true label.
@@ -21,11 +21,17 @@ X = arr[:,2:colxx]
 Y = arr[:,colxx:colxx+1]
 X = X.astype(float)
 
+# Save mean and std for later predictions
+mean = np.nanmean(X, axis=0)  # Mean, skipping NaN
+std = np.nanstd(X, axis=0)    # Standard deviation, skipping NaN
+with open('models/scaler_params.pkl', 'wb') as f:
+    pickle.dump({'mean': mean, 'std': std}, f)
+
 # data normalization for predictors
 X = stats.zscore(X, axis=0)
 
 # split into train set and test set
-rowxx = 11656 # train: (2010-2021) first 11656 rows; test: (2022) the remaining rows.
+rowxx = 11634 # train: (2010-2021) first 11634 rows; test: (2022) the remaining rows.
 X_train = X[0:rowxx,:]
 y_train = Y[0:rowxx,:]
 

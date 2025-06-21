@@ -14,10 +14,6 @@ std = scaler_params['std']
 
 # predict a single sample
 def predict_a_sample_GB(x):
-    print(mean)
-    print(std)
-    print(x)
     x = (x - mean) / std
-    print(x)
     y_pred = model.predict(x.reshape(1, -1))
     return y_pred

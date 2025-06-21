@@ -77,11 +77,11 @@ sample = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16,
 sample = np.asarray(sample, dtype=np.float32)
 
 if algorithm == 'Gradient Boosting (GB)':
-    pred = predict_a_sample_GB(sample)
     print('GB selected')
+    pred = predict_a_sample_GB(sample)
 else:
-    pred = predict_a_sample_RF(sample)
     print('RF selected')
+    pred = predict_a_sample_RF(sample)
 
 st.title('Calculated financial ratios: ')
 st.text('Current ratio [current assets / current liabilities]: ' + "{:.2f}".format(X1))
