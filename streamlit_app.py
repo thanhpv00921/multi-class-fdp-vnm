@@ -7,7 +7,7 @@ from load_and_predict_GB import predict_a_sample_GB
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='Multi-class FDP for Vietnam-listed firms',
+    page_title='Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -16,15 +16,15 @@ st.set_page_config(
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: Multi-class Financial distress prediction for Vietnam-listed firms
+# :earth_americas: Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective
 
 This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
 Please input the following financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED for prediction.
 
 The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of SDP (SDP Joint Stock Company) in 2018.
-The default interest rates are the average rate of 2018 (SBV: 6.25%, FED: 1.71%). That company was marked as Severe distress on 2019.
+The default interest rates are the average rate of 2018 (SBV: 6.25%, FED: 1.71%). That company was labeled as severe distressed on 2019.
 
-The prediction results fall into one of the 3 following possibilities: Soundness (Active), Mild distress and Severe distress.
+The prediction results fall into one of the 3 following possibilities: Soundness (Active), Mild Distress and Severe Distress.
 '''
 
 # Add some spacing
