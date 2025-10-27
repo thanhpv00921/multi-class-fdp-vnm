@@ -18,7 +18,7 @@ st.set_page_config(
 '''
 # :earth_americas: Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective
 
-This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
+This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next year. 
 Please input the following financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED for prediction.
 
 The unit of financial indicators is billion VND. Default values are extracted from audited financial statement of SDP (SDP Joint Stock Company) in 2018.

@@ -1,6 +1,6 @@
 # :earth_americas: Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective
 
-This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
+This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next year. 
 The input features include financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED.
 The prediction results fall into one of the 3 following possibilities: Active, Mildly Distressed and Severe Distressed.
 
