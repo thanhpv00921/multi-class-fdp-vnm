@@ -37,7 +37,7 @@ algorithm = st.selectbox(
     ("Random Forest (RF)", "Gradient Boosting (GB)"),
 )
 
-st.title('Then enter the financial indicators of the firm')
+st.title('Then enter the financial indicators of the firm (in billion VND)')
 A01 = st.number_input('Current assets', value=428.0)
 A05 = st.number_input('Inventories', value=109.)
 A08 = st.number_input('Fixed assets', value=27.0)
