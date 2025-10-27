@@ -1,7 +1,7 @@
-# :earth_americas: FDP application for Vietnam-listed firms
+# :earth_americas: Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective
 
-This application predicts if a listed firm in Vietnam stock exchanges will fall into financial distress
-in the next year. Financial indicators and the current interest rate of the State Bank of Vietnam are input for prediction.
+This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next 1 year. 
+The input features include financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED.
 The prediction results fall into one of the 3 following possibilities: Active, Mildly Distressed and Severe Distressed.
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
