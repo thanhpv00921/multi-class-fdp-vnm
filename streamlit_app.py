@@ -7,7 +7,7 @@ from load_and_predict_GB import predict_a_sample_GB
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective',
+    page_title='Multi-Class Financial Distress Prediction in an Emerging Economy: A Machine Learning Perspective',
     page_icon=':earth_americas:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -16,7 +16,7 @@ st.set_page_config(
 
 # Set the title that appears at the top of the page.
 '''
-# :earth_americas: Predicting Early-Stage Financial Distress in Vietnamese Firms: A Machine Learning Perspective
+# :earth_americas: Multi-Class Financial Distress Prediction in an Emerging Economy: A Machine Learning Perspective
 
 This application predicts the financial state of a listed firm in Vietnam stock exchanges in the next year. 
 Please input the following financial indicators and the interest rates of the State Bank of Vietnam & U.S. FED for prediction.
